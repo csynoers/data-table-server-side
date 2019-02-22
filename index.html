@@ -1,0 +1,42 @@
+<html>
+    <header>
+        <title>Server Side Data Tables</title>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    </header>
+    <body>
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Actions</th>
+                </tr>
+            </tfoot>
+        </table>
+        <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" language="javascript" >
+            $(document).ready(function() {
+                $('#example').DataTable( {
+                    "processing":true,
+                    "serverSide":true,
+                    "ajax":{
+                        url:"data.json",
+                        data: function( d ){
+                            d.columns = "myValue";
+                            // console.log(d)
+                        },
+                    },
+                } );
+            } );
+        </script>
+        
+    </body>
+</html>
