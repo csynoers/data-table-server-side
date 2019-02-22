@@ -13,8 +13,6 @@
         die();
     }
     // end create connection
-    
-    $records_total  = 1000;
 
     # default query
     $query          = "SELECT * FROM tes WHERE 1=1 ";
@@ -50,23 +48,25 @@
     # end generate like condition for search
 
     # sorting
-    $query .= isset($_POST["order"])? 'ORDER BY '.$column_order[$_POST['order'][0]['column']].' '.$_POST['order']['0']['dir'] : 'ORDER BY id '; 
+    $query .= isset($_POST["order"])? 'ORDER BY '.$column_order[$_POST['order'][0]['column']].' '.$_POST['order']['0']['dir'] : 'ORDER BY id DESC'; 
     # end sorting
 
     # limit
-    $limit = $_POST['length'] != -1 ? $_POST['start'].','.$_POST['length'] : null;
+    $limit = $_POST['length'] != 1 ? ($_POST['start']).','.($_POST['length']) : null;
     # end limit
 
     # collect data from tables (PDO)
     $statement = $conn->prepare("$query LIMIT $limit" );
     $statement->execute();
     $result = $statement->fetchAll();
-    $records_filtered = $statement->rowCount();
+    $records_statement = $conn->prepare("$query" );
+    $records_statement->execute();
+    $records_total = $records_statement->rowCount();
 
     # create variabel for save data from push with foreach
     $data= []; 
     # ceate number
-    $no = ($_REQUEST["start"]==0) ? 1 : $_REQUEST["start"] ;
+    $no = ($_REQUEST["start"]==0) ? 1 : $_REQUEST["start"]+1 ;
     
     foreach($result as $row)
     {
@@ -80,11 +80,11 @@
     }
 
     $output = array(
-        // "draw"				=>	intval($_POST["draw"]),
         "draw"				=>	$_POST["draw"],
         "recordsTotal"		=> 	$records_total,
         "recordsFiltered"	=>	$records_total,
         "data"				=>	$data,
-        "console_log"       => $query
+        "query"             =>  $query." LIMIT $limit",
+        "console_log"       =>  $_REQUEST,
     );
     echo json_encode($output);
