@@ -7,6 +7,7 @@
         <table id="example" class="display" style="width:100%">
             <thead>
                 <tr>
+                    <th>NO</th>
                     <th>First name</th>
                     <th>Last name</th>
                     <th>Actions</th>
@@ -14,6 +15,7 @@
             </thead>
             <tfoot>
                 <tr>
+                    <th>NO</th>
                     <th>First name</th>
                     <th>Last name</th>
                     <th>Actions</th>
@@ -27,13 +29,17 @@
                 $('#example').DataTable( {
                     "processing":true,
                     "serverSide":true,
+                    "order":[],
                     "ajax":{
-                        url:"data.json",
-                        data: function( d ){
-                            d.columns = "myValue";
-                            // console.log(d)
-                        },
+                        url:"load_data.php",
+                        type:"POST"
                     },
+                    // "columnDefs":[
+                    //     {
+                    //         "targets":[0, 3, 4],
+                    //         "orderable":false,
+                    //     },
+                    // ],
                 } );
             } );
         </script>
