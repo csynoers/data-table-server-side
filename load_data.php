@@ -1,5 +1,5 @@
 <?php
-    // create connection
+    // create connection pdo
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -12,7 +12,7 @@
         echo "Error: " . $e->getMessage();
         die();
     }
-    // end create connection
+    // end create connection pdo
 
     # default query
     $query          = "SELECT * FROM tes WHERE 1=1 ";
