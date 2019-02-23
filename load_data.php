@@ -48,7 +48,13 @@
     # end generate like condition for search
 
     # sorting
-    $query .= isset($_POST["order"])? 'ORDER BY '.$column_order[$_POST['order'][0]['column']].' '.$_POST['order']['0']['dir'] : 'ORDER BY id DESC'; 
+    /* 
+        query default sorting will generate like as:
+            ORDER BY
+                {$column_order[0]} # get value from $column_order with index array is 0 
+                    DESC  
+    */
+    $query .= isset($_POST["order"])? 'ORDER BY '.$column_order[$_POST['order'][0]['column']].' '.$_POST['order']['0']['dir'] : "ORDER BY {$column_order[0]} DESC";
     # end sorting
 
     # limit
